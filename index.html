@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>博客练习</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./bootstrap.min.css" />
+    <style>
+      body {
+        margin: 0;
+        background: #fafafa;
+        color: #333333;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+        font-family: "Source Sans Pro", "Microsoft Yahei", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        text-align: left;
+        text-size-adjust: 100%;
+        /* rem（font size of the root element）是指相对于根元素的字体大小的单位。 */
+        line-height: 1.75rem;
+        display: flex;
+      }
+      /* * {
+        border: 1px solid red;
+      } */
+      .flex {
+        display: flex;
+      }
+      .flex1 {
+        flex: 1;
+      }
+      .flex3 {
+        flex: 3;
+      }
+      .sidebar {
+        width: 260px;
+        height: 100%;
+        padding-right: 0;
+        padding-left: 0;
+        left: 0;
+        top: 0;
+        position: fixed;
+        overflow-y: auto;
+        z-index: 99;
+        background: var(--sidebar-bg);
+      }
+      #Sidebar a {
+        color: rgba(255, 255, 255, 0.5);
+        transition: color 0.35s ease-in-out;
+        user-select: none;
+      }
+      #Sidebar a:hover {
+        color: rgba(255, 255, 255, 1);
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+      }
+      .avatar {
+        border-radius: 50%;
+        height: 6rem;
+        width: 6rem;
+        border: 2px solid #b6b6b6;
+        /* overflow 定义当一个元素的内容太大而无法适应 块级格式化上下文 时候该做什么 */
+        overflow: hidden;
+      }
+      .site-title {
+        margin-top: 1rem !important;
+        font-weight: 900;
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+      }
+      .site-subtitle {
+        font-size: 95%;
+        font-style: italic !important;
+        color: #828282;
+        line-height: 1.2rem;
+        word-spacing: 1px;
+        margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+        min-height: 3rem;
+        user-select: none;
+      }
+      .navigation {
+        display: block;
+        width: 100% !important;
+        height: 19.2rem;
+        list-style-type: disc;
+        margin-top: 0px;
+        margin-bottom: 2rem;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+        padding-left: 0;
+      }
+      .navi-items {
+        display: table;
+        height: 3.2rem;
+        width: 100%;
+        text-align: center;
+      }
+      .navi-link {
+        border-radius: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0.5rem 1rem;
+      }
+      #Sidebar .navi-items.active .navi-link {
+        color: #fcfcfc;
+      }
+      i {
+        font-style: italic;
+      }
+      .sidebar-bottom {
+        padding-left: 0px;
+        padding-right: 1rem;
+        font-size: 1.2rem;
+        margin-bottom: 2.1rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .align-items-end {
+        align-items: flex-end !important;
+      }
+      .justify-content-center {
+        justify-content: center !important;
+      }
+      .justify-content-between {
+        justify-content: space-between !important;
+      }
+      .align-items-center {
+        align-items: center !important;
+      }
+      .profile-wrapper {
+        margin-top: 2rem;
+        width: 100%;
+      }
+      .text-center {
+        text-align: center !important;
+      }
+      .ml-auto,
+      .mx-auto {
+        margin-left: auto;
+      }
+      .mr-auto,
+      .mx-auto {
+        margin-right: auto;
+      }
+      .mt-auto,
+      .mx-auto {
+        margin-top: auto !important;
+      }
+      #main-wrapper {
+        background: var(--main-wrapper-bg);
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 5rem;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .top {
+        height: 3rem;
+        position: fixed;
+        top: 0;
+        left: 260px;
+        right: 0;
+        transition: top 0.2s ease-in-out;
+        z-index: 50;
+        background-color: var(--topbar-wrapper-bg);
+      }
+      .shadow {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+        box-shadow: 0 3px 5px 0 rgb(0 0 0 / 5%);
+      }
+      .row {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .topbar-other {
+        height: 100%;
+        flex: 0 0 91.666667%;
+        width: 100%;
+        position: relative;
+      }
+      .left {
+        margin-top: 3rem;
+        padding-left: 3%;
+        padding-right: 15px;
+        position: relative;
+        width: 100%;
+        max-width: 75%;
+        min-height: calc(100vh - 3rem - 5rem - 35rem);
+      }
+      .right {
+        margin-top: 3rem;
+        width: 100%;
+        padding-left: 5rem !important;
+        padding-right: 15px;
+        position: relative;
+        color: #6c757d !important;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        padding: 0 1rem;
+        height: 5rem;
+        font-size: 0.8rem;
+        color: #7a7b7d;
+        background-color: var(--footer-bg-color);
+        width: 100% !important;
+      }
+      footer > div.flex {
+        line-height: 1.2rem;
+        width: 95%;
+        max-width: 1045px;
+        border-top: 1px solid var(--main-border-color);
+        margin-bottom: 1rem;
+      }
+      #Siderbar div.navi-items .navi-link,
+      ::after {
+        top: -15.2em;
+        visibility: visible;
+      }
+      @media (min-width: 831px) {
+        .profile-wrapper {
+          margin-top: 3rem;
+        }
+        #main-wrapper {
+          margin-left: 260px;
+        }
+      }
+      @media (min-width: 1200px) {
+        .ml-xl-3,
+        .mx-xl-3 {
+          margin-left: 1rem !important;
+        }
+        .mr-xl-3,
+        .mx-xl-3 {
+          margin-right: 1rem !important;
+        }
+        #main-wrapper > div.flex.flex-wrap.flex1.row > div.left {
+          -webkit-box-flex: 0;
+          flex: 0 0 75%;
+          max-width: 75%;
+          padding-left: 3%;
+        }
+      }
+    </style>
+  </head>
+  <body data-spy="scroll" data-target="#toc">
+    <!-- side bar-->
+    <div id="Sidebar" class="sidebar flex flex-column align-items-end">
+      <!--Avatar bar-->
+      <div id="avatar" class="profile-wrapper text-center">
+        <div>
+          <img
+            src="./avatar1-a.png"
+            alt="avatar"
+            onerror="this.styly.display='none'"
+            class="avatar mx-auto"
+          />
+        </div>
+        <!-- title -->
+        <div id="main-title" class="site-title">
+          <a href="./three.html" one-link-mark="yes">喵sǎng~</a>
+        </div>
+        <div id="sub-title" class="site-subtitle">
+          <div style="height: 6px"></div>
+          " 白骨终将化为沙土 "
+          <br />
+          <div style="height: 6px"></div>
+          " 却又生生不息 "
+          <div style="height: 12px"></div>
+        </div>
+      </div>
+      <!--Navigation bar-->
+      <ul class="navigation">
+        <li class="navi-items active">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <!-- 使用 <span> 元素对文本中的一部分进行着色： -->
+            <span>HOME</span>
+          </a>
+        </li>
+        <li class="navi-items">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <span>ABOUT</span>
+          </a>
+        </li>
+        <li class="navi-items">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <span>MEMBERS</span>
+          </a>
+        </li>
+        <li class="navi-items">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <span>PUBLICATIONS</span>
+          </a>
+        </li>
+        <li class="navi-items">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <span>POSTS</span>
+          </a>
+        </li>
+        <li class="navi-items">
+          <a href="./three.html" class="navi-link" one-link-mark="yes">
+            <i class="ml-xl-3 mr-xl-3 unloaded"></i>
+            <span>LINK</span>
+          </a>
+        </li>
+      </ul>
+      <!-- sidebar-bottom -->
+      <div class="sidebar-bottom mt-auto flex flex-wrap justify-content-center">
+        <a href="">contact me</a>
+      </div>
+    </div>
+    <!-- side bar -->
+    <!-- top bar-->
+    <div class="top row shadow flex flex-wrap justify-content-center">
+      <div
+        id="topbar"
+        class="topbar-other flex align-items-center justify-content-between"
+      >
+        <span id="breadcrumb">
+          <!-- index page -->
+          <span>Posts</span>
+        </span>
+        <!-- endof #breadcrumb -->
+        <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i>
+        <div id="topbar-title">喵sǎng~</div>
+        <i id="search-trigger" class="fas fa-search fa-fw"></i>
+        <span id="search-wrapper" class="align-items-center">
+          <i class="fas fa-search fa-fw"></i>
+          <input
+            class="form-control"
+            id="search-input"
+            type="search"
+            aria-label="search"
+            placeholder="Search..."
+          />
+          <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i>
+        </span>
+      </div>
+    </div>
+    <!-- top bar -->
+    <!-- main wrapper-->
+    <div id="main-wrapper" class="flex flex1 flex-column">
+      <!-- content wrapper-->
+      <div class="flex flex-wrap flex1 row">
+        <!-- left content-->
+        <!-- post-list -->
+        <div class="flex flex-column flex3 left">
+          <div
+            id="page"
+            class="post pb-5 pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4 mb-md-4"
+          >
+            <!-- Get pinned post -->
+            <!-- Get default posts -->
+            <div id="post-list">
+              <!-- post-preview -->
+              <div class="post-preview">
+                <h1>
+                  <a href="" one-link-mark="yes">这是一个一级标题链接</a>
+                </h1>
+                <div class="post-content">
+                  <p>简单描述一下内容</p>
+                </div>
+                <div class="post-meta text-mute flex justify-content-between">
+                  <div>
+                    <!-- posted date -->
+                    <i class="far fa-calendar fa-fw"></i>
+                    <!-- Date format snippet -->
+                    <span
+                      class="timeago"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="06 30, 2022, 08:57 PM +0800"
+                      >06 30, 2022
+                      <i class="unloaded">2022-06-30T20:57:00+08:00</i>
+                    </span>
+                  </div>
+                  <div class="pin">
+                    <i class="fas fa-thumbtack fa-fw"></i>
+                    <span>Pinned</span>
+                  </div>
+                </div>
+              </div>
+              <!-- .post-review -->
+              <div class="post-preview">
+                <h1>
+                  <a href="" one-link-mark="yes">这也是一个一级标题链接</a>
+                </h1>
+                <div class="post-content">
+                  <p>简单描述一下内容....</p>
+                </div>
+                <div class="post-meta text-mute flex justify-content-between">
+                  <div>
+                    <!-- posted date -->
+                    <i class="far fa-calendar fa-fw"></i>
+                    <!-- Date format snippet -->
+                    <span
+                      class="timeago"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="06 30, 2022, 09:18 PM +0800"
+                      >06 30, 2022
+                      <i class="unloaded">2022-06-30T21:18:00+08:00</i>
+                    </span>
+                  </div>
+                  <div class="pin">
+                    <i class="fas fa-thumbtack fa-fw"></i>
+                    <span>Pinned</span>
+                  </div>
+                </div>
+              </div>
+              <!-- post-review -->
+            </div>
+            <ul class="pagination mt-4 mb-0 pl-lg-2">
+              <!-- left arrow -->
+              <li class="page-item disabled">
+                <a
+                  class="page-link btn-box-shadow"
+                  href="#"
+                  aria-label="previous-page"
+                  one-link-mark="yes"
+                >
+                  <i class="fas fa-angle-left"></i>
+                </a>
+              </li>
+              <!-- page numbers -->
+              <!-- show number -->
+              <li class="page-item active">
+                <a
+                  class="page-link btn-box-shadow"
+                  href="/~zqj/"
+                  one-link-mark="yes"
+                  >1</a
+                >
+              </li>
+              <!-- show number -->
+              <li class="page-item">
+                <a
+                  class="page-link btn-box-shadow"
+                  href="/~zqj/page2/"
+                  one-link-mark="yes"
+                  >2</a
+                >
+              </li>
+              <!-- show number -->
+              <li class="page-item">
+                <a
+                  class="page-link btn-box-shadow"
+                  href="/~zqj/page3/"
+                  one-link-mark="yes"
+                  >3</a
+                >
+              </li>
+              <!-- right arrow -->
+              <li class="page-item">
+                <a
+                  class="page-link btn-box-shadow"
+                  href="/~zqj/page2"
+                  aria-label="next-page"
+                  one-link-mark="yes"
+                >
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- #post-list -->
+        <!--
+        The paginator for post list on HomgPage.
+        -->
+
+        <!-- right centent-->
+        <!--
+         The Pannel on right side (Desktop views)
+        -->
+        <div
+          id="panel-wrapper"
+          class="flex flex1 right text-mute topbar-down col-xl-3 pl-2"
+        >
+          <div class="access topbar-down">
+            <div id="access-tags">
+              <span>Trending Tags</span>
+              <div class="flex flex-wrap mt-3 mb-1 mr-3">
+                <a class="post-tag" href="" one-link-mark="yes">热门标签1</a>
+                <a class="post-tag" href="" one-link-mark="yes">热门标签2</a>
+                <a class="post-tag" href="" one-link-mark="yes">热门标签3</a>
+                <a class="post-tag" href="" one-link-mark="yes">热门标签4</a>
+                <a class="post-tag" href="" one-link-mark="yes">热门标签5</a>
+                <a class="post-tag" href="" one-link-mark="yes">热门标签6</a>
+              </div>
+            </div>
+          </div>
+          <!-- .access -->
+        </div>
+        <!-- #panel-wrapper -->
+      </div>
+      <!-- the footer-->
+      <footer class="flex footer justify-content-center">
+        <div class="flex justify-content-between align-items-center"></div>
+      </footer>
+      <!-- footer -->
+      <!-- The search results -->
+      <div
+        id="search-result-wrapper"
+        class="flex justify-content-center unloaded"
+      >
+        <div class="col-12 col-sm-11 post-content">
+          <div class="search-hints">
+            <h4 class="text-muted mb-4">Trending Tags</h4>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签1</a>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签2</a>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签3</a>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签4</a>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签5</a>
+            <a class="post-tag" href="" one-link-mark="yes">热门标签6</a>
+          </div>
+          <div
+            id="search-results"
+            class="flex flex-wrap justify-content-center text-muted mt-3"
+          ></div>
+        </div>
+      </div>
+      <!-- The search results -->
+    </div>
+    <!-- main wrapper -->
+    <div id="mask"></div>
+    <a
+      id="back-to-top"
+      href="#"
+      aria-label="back-to-top"
+      class="btn btn-lg btn-box-shadow"
+      role="button"
+      one-link-mark="yes"
+      style="display: inline"
+    >
+      <i class="fas fa-angle-up"></i>
+    </a>
+  </body>
+</html>
